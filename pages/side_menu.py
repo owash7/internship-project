@@ -35,22 +35,45 @@ class SideMenu(Page):
     def click_apply_filter_btn(self):
         self.click(*self.APPLY_FILTER)
 
+    # def verify_price_in_range(self, min_price, max_price):
+    #     print(f"Checking prices between {min_price} and {max_price} AED\n")
+    #
+    #     price_elements = self.driver.find_elements(*self.CARD_PRICE)
+    #     print(f"Found {len(price_elements)} property price elements\n")
+    #
+    #     for index, card in enumerate(price_elements, start=1):
+    #         text = card.text.strip()
+    #         match = re.search(r"(\d[\d\s,]*)\s?AED", text)
+    #         if match:
+    #             num_str = match.group(1).replace(" ", "").replace(",", "")
+    #             try:
+    #                 price = int(num_str)
+    #                 if int(min_price) <= int(price) <= int(max_price):
+    #                     print(f"{index}. {price:,} AED ✅ In range")
+    #                 else:
+    #                     print(f"{index}. {price:,} AED ❌ Out of range")
+    #             except ValueError:
+    #                 print(f"{index}. Could not parse number from: {text}")
+
     def verify_price_in_range(self, min_price, max_price):
-        print(f"Checking prices between {min_price} and {max_price} AED\n")
+        price_elements = self.find_elements(*self.CARD_PRICE)
+        min_price = int(min_price)
+        max_price = int(max_price)
 
-        price_elements = self.driver.find_elements(*self.CARD_PRICE)
-        print(f"Found {len(price_elements)} property price elements\n")
-
-        for index, card in enumerate(price_elements, start=1):
-            text = card.text.strip()
+        for index, element in enumerate(price_elements, start=1):
+            text = element.text.strip()
             match = re.search(r"(\d[\d\s,]*)\s?AED", text)
+
             if match:
-                num_str = match.group(1).replace(" ", "").replace(",", "")
-                try:
-                    price = int(num_str)
-                    if int(min_price) <= int(price) <= int(max_price):
-                        print(f"{index}. {price:,} AED ✅ In range")
-                    else:
-                        print(f"{index}. {price:,} AED ❌ Out of range")
-                except ValueError:
-                    print(f"{index}. Could not parse number from: {text}")
+                # Clean and convert to integer (remove commas/spaces)
+                price = int(match.group(1).replace(",", "").replace(" ", ""))
+
+                # Assertion for in-range validation
+                assert min_price <= price <= max_price, (
+                    f"❌ {index}. Price {price:,} AED is OUT of range "
+                    f"({min_price:,} - {max_price:,})"
+                )
+
+                print(f"✅ {index}. {price:,} AED is within range.")
+            else:
+                print(f"⚠️ {index}. No valid price text found → '{text}'")

@@ -21,6 +21,6 @@ def user_inputs_price(context, min_price, max_price):
 def user_click_apply_filter_btn(context):
     context.app.side_menu.click_apply_filter_btn()
 
-@then("Verify all visible property prices are within range {min_price} and {max_price}")
+@then("User verifies all visible property prices are within range {min_price} and {max_price}")
 def verify_all_prices_in_range(context, min_price, max_price):
     context.app.side_menu.verify_price_in_range(min_price, max_price)

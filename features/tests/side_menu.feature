@@ -9,4 +9,4 @@ Feature: User can click on
     When User clicks the Price filter
     Then User inputs the 1200000 and 2000000
     Then User clicks the apply filter button
-    Then Verify all visible property prices are within range 1200000 and 2000000
+    Then User verifies all visible property prices are within range 1200000 and 2000000
