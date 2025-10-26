@@ -1,5 +1,7 @@
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
+import os
+from datetime import datetime
 
 class Page:
     def __init__(self, driver):
@@ -39,3 +41,21 @@ class Page:
     def verify_text(self, expected_text, *locator):
         actual_text = self.find_element(*locator).text
         assert expected_text in actual_text, f'Expected {expected_text}, but got {actual_text}'
+
+
+    def debug_snapshot(self, name="debug"):
+        """Save screenshot and page source with timestamp for debugging."""
+        timestamp = datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
+        folder = "debug_artifacts"
+        os.makedirs(folder, exist_ok=True)
+
+        screenshot_path = os.path.join(folder, f"{name}_{timestamp}.png")
+        html_path = os.path.join(folder, f"{name}_{timestamp}.html")
+
+        self.driver.save_screenshot(screenshot_path)
+        with open(html_path, "w", encoding="utf-8") as f:
+            f.write(self.driver.page_source)
+
+        print(f"\n🪲 Debug files saved:\n  Screenshot → {screenshot_path}\n  HTML → {html_path}\n")
+
+        return screenshot_path, html_path
