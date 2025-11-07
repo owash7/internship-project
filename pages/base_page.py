@@ -38,9 +38,19 @@ class Page:
         actual_url = self.driver.current_url
         assert expected_url in actual_url, f'Expected {expected_url}, but got {actual_url}'
 
+    def verify_partial_url(self, expected_partial_url):
+        actual_partial_url = self.driver.current_url
+        assert expected_partial_url in actual_partial_url, f'Expected {expected_partial_url}, but got {actual_partial_url}'
+
     def verify_text(self, expected_text, *locator):
         actual_text = self.find_element(*locator).text
         assert expected_text in actual_text, f'Expected {expected_text}, but got {actual_text}'
+
+    def verify_element_count(self, expected_count, *locator):
+        expected_count = int(expected_count)
+        elements = self.find_elements(*locator)
+        actual_count = len(elements)
+        assert actual_count == expected_count, f'Expected {expected_count}, but got {actual_count}'
 
 
     def debug_snapshot(self, name="debug"):

@@ -2,6 +2,7 @@ from pages.base_page import Page
 from pages.login_page import LoginPage
 from pages.home_page import HomePage
 from pages.side_menu import SideMenu
+from pages.settings_page import SettingsPage
 
 class Application:
 
@@ -11,5 +12,6 @@ class Application:
         self.login_page = LoginPage(driver)
         self.home_page = HomePage(driver)
         self.side_menu = SideMenu(driver)
+        self.settings_page = SettingsPage(driver)
 
 

@@ -19,10 +19,11 @@ class LoginPage(Page):
 
     def click_continue_btn(self):
         self.click(*self.LOGIN_BUTTON)
+        sleep(2)
 
     def verify_home_url(self):
         self.verify_url("https://soft.reelly.io/")
-        sleep(4)
+        sleep(2)
 
     def complete_login(self,email,password):
         self.enter_email(email)

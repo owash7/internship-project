@@ -1,4 +1,4 @@
-Feature: User can click on
+Feature: User can click on topics in the side menu
 
   Scenario: User can filter the off plan products by Unit price range
     Given User navigates to login page
@@ -10,3 +10,4 @@ Feature: User can click on
     Then User inputs the 1200000 and 2000000
     Then User clicks the apply filter button
     Then User verifies all visible property prices are within range 1200000 and 2000000
+
