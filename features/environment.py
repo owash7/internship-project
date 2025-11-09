@@ -22,6 +22,8 @@ def before_all(context):
 def browser_init(context, scenario_name):
     browser_name = context.browser_name
     headless = context.headless
+    mobile = context.config.userdata.get("mobile", "false").lower() == "true"
+    device_name = context.config.userdata.get("device", "Nexus 5")  # Default device
 
     # ----------------------------
     # LOCAL BROWSER SETUP
@@ -29,6 +31,11 @@ def browser_init(context, scenario_name):
     if browser_name in ["chrome", "firefox"]:
         if browser_name == "chrome":
             options = webdriver.ChromeOptions()
+            if mobile:
+                print(f"\n** Running Chrome in MOBILE EMULATION mode ({device_name}) **\n")
+                mobile_emulation = {"deviceName": device_name}
+                options.add_experimental_option("mobileEmulation", mobile_emulation)
+
             if headless:
                 print("\n** Running Chrome in HEADLESS mode **\n")
                 options.add_argument("--headless=new")
@@ -69,6 +76,9 @@ def browser_init(context, scenario_name):
         }
 
         options = webdriver.ChromeOptions()
+        if mobile:
+            print(f"\n** Running BrowserStack in MOBILE EMULATION mode ({device_name})**\n")
+            options.add_experimental_option("mobileEmulation", {"deviceName": device_name})
         options.set_capability('bstack:options', bstack_options)
 
         driver = webdriver.Remote(
@@ -78,6 +88,7 @@ def browser_init(context, scenario_name):
 
     else:
         raise ValueError(f"❌ Unsupported browser: {browser_name}")
+
 
     driver.maximize_window()
     driver.implicitly_wait(4)

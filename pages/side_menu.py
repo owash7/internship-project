@@ -1,11 +1,11 @@
 import re
+from time import sleep
 from pages.base_page import Page
 from selenium.webdriver.common.by import By
 
 class SideMenu(Page):
     SIDE_MENU = (By.CSS_SELECTOR, "div[id*='w-node']")
-    OFF_PLAN_BTN = (By.XPATH, "//div[contains(@class,'menu-text')"
-                                "and text()='Off-plan']")
+    OFF_PLAN_BTN = (By.CSS_SELECTOR, "a[wized='newOffPlanLink']")
     OFF_PLAN_TXT = (By.CSS_SELECTOR, "button[class*='pb-5']")
     PRICE_FILTER_DD = (By.CSS_SELECTOR, "button[data-test-id='filter-price-dropdown']")
     MIN_PRICE = (By.CSS_SELECTOR, "input[id*='priceMin']")
@@ -16,7 +16,8 @@ class SideMenu(Page):
 
     def click_off_plan_btn(self):
         # self.wait_for_element_visible(*self.SIDE_MENU)
-        self.wait_for_element_clickable_click(*self.OFF_PLAN_BTN)
+        sleep(2)
+        self.wait_for_element_visible(*self.OFF_PLAN_BTN).click()
 
     def verify_off_plan_txt(self):
         self.wait_for_element_visible(*self.OFF_PLAN_TXT)
